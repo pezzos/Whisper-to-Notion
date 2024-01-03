@@ -34,7 +34,7 @@ payload = {
     "Title": {"type": "title", "value": title},
     "Concept": {"type": "rich_text", "value": concept},
     "Results": {"type": "rich_text", "value": results},
-    "Improvement": {"type": "rich_text", "value": improvements},
+    "Improvements": {"type": "rich_text", "value": improvements},
     "Input": {"type": "rich_text", "value": IDEA},
 }
 
