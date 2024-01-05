@@ -35,3 +35,10 @@ env/
 # Ignore Python bytecode cache
 __pycache__/
 *.pyc
+
+# Ignore macOS folder attributes
+.DS_Store
+
+# Ignore user configuration and uploads
+uploads/
+config.json
