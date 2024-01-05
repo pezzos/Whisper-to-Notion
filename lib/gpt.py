@@ -11,8 +11,30 @@ import requests
 
 from openai import OpenAI, OpenAIError
 
+
 client = OpenAI(api_key=os.environ.get("OPENAI"))
 MAX_RETRIES = 3
+
+
+def transcribe(file_path: str) -> str:
+    """
+    This function takes a file path as an argument, reads the content
+    of the file, and calls the OpenAI Whisper API to generate a response.
+    It returns the generated response as a string.
+
+    Args:
+        file_path (str): The path to the file.
+
+    Returns:
+        str: The generated response from the OpenAI Whisper API.
+    """
+    if not os.environ.get("OPENAI"):
+        raise ValueError("OPENAI environment variable is not set.")
+
+    audio_file = open(file_path, "rb")
+    transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
+
+    return transcript.text
 
 
 def completion(
