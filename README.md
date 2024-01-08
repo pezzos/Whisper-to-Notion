@@ -1,6 +1,7 @@
-# Project Title
+# Whisper To Notion
 
-This project is about creating a treasure hunt application where the game master is ChatGPT.
+This project is about simplifying the note taking, the idea dropping, etc.
+Thanks to a simple iOS Shortcuts, you capture a little piece of audio and it is brought to Notion and enriched with valuable insight, based on your expectations.
 
 ## Getting Started
 
@@ -18,11 +19,11 @@ python --version
 
 Clone the repository to your local machine:
 ```bash
-git clone <repository_url>
+git clone git@github.com:pezzos/Whisper-to-Notion.git   
 ```
 Navigate into the project directory:
 ```bash
-cd <project_directory>
+cd Whisper-to-Notion
 ```
 
 ### Running the program
@@ -44,7 +45,28 @@ You also neeed to create your config.json:
 mv config.json.template config.json
 # then update it according to your setup
 ```
-:wq
+This file is filed with some example you can use.
+Keep in mind that each Notion DB (see: db_id) has fields described in this file and you MUST respect the same name in your Notion DB in order to have it works.
+For now, the available fields are:
+- Concept: to describe the concept of an idea, a project
+- Date: the current date
+- Events: the events listed in the text
+- Followup: followup suggestions from the tasks in the text
+- Goals: to describe the goals of an idea, a project
+- Improvements: to describe what could be improved from an idea
+- Input: the input received
+- Mood: the mood(s) detected in the text
+- Name: a name to sumup the content
+- Preparation: suggest ideas to prepare a task easily
+- Recommendations: suggest ideas to improve yourself from your current mood and events
+- Results: the expected results of an idea
+- Tasks: extracts the tasks from a text
+- Title: give a motivational title to an idea, a project
+- Weather
+And for technical reasons, some fields are dependant from other and should be listed before the required ones:
+- Followup requires Tasks
+- Preparation requires Tasks
+- Recommendations requires Mood and Events
 
 To run the program, use the following command:
 ```bash
@@ -67,3 +89,9 @@ Alexandre 'Pezzos' Pezzotta
 ### License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
+
+### Fixing some errors
+```json
+{'object': 'error', 'status': 400, 'code': 'validation_error', 'message': 'Recommendations is not a property that exists.', 'request_id': 'some-caracters'}
+```
+It means the field you add in the config.json has a different name from your Notion DB, please update your Notion DB.
