@@ -35,6 +35,101 @@
                 "field5",
                 "field6"
             ]
+        },
+        {
+    "destinations": [
+        {
+            "name": "Diary",
+            "db_id": "",
+            "keywords": [
+                "journal"
+            ],
+            "fields": [
+                "Date",
+                "Name",
+                "Input",
+                "Weather",
+                "Mood",
+                "Events",
+                "Recommendations"
+            ]
+        },
+        {
+            "name": "Idea",
+            "db_id": "",
+            "keywords": [
+                "idée",
+                "projet"
+            ],
+            "fields": [
+                "Date",
+                "Title",
+                "Concept",
+                "Results",
+                "Improvements",
+                "Input"
+            ]
+        },
+        {
+            "name": "Work log",
+            "db_id": "",
+            "keywords": [
+                "travail",
+                "criteo",
+                "boulot"
+            ],
+            "fields": [
+                "Date",
+                "Name",
+                "Tasks",
+                "Followup",
+                "Input"
+            ]
+        },
+        {
+            "name": "Todo",
+            "db_id": "",
+            "keywords": [
+                "à faire"
+            ],
+            "fields": [
+                "Name",
+                "Tasks",
+                "Preparation",
+                "Input",
+                "Date"
+            ]
+        },
+        {
+            "name": "Dreams log",
+            "db_id": "",
+            "keywords": [
+                "rêve",
+                "rêver",
+                "sommeil"
+            ],
+            "fields": [
+                "Date",
+                "Name",
+                "Interpretation",
+                "Input"
+            ]
+        },
+        {
+            "name": "Draft an article",
+            "db_id": "",
+            "keywords": [
+                "brouillon",
+                "article",
+                "blog"
+            ],
+            "fields": [
+                "Date",
+                "Title",
+                "Input"
+            ]
         }
+    ]
+}
     ]
 }
