@@ -1,7 +1,7 @@
 """
 Library to handle Notion API calls.
 
-Inspired by: 
+Inspired by:
 https://medium.com/@pratikdeshmukhlobhi2004/notion-api-with-python-916024cb9138
 """
 
