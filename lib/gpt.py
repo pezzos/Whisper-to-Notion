@@ -34,6 +34,8 @@ def completion(
         str: The content from the OpenAI API response, with double quotes
         removed.
     """
+    if not os.environ.get("OPENAI"):
+        raise ValueError("OPENAI environment variable is not set.")
     response = {
         "choices": [
             {"message": {"content": "default value"}},
