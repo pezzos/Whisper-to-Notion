@@ -28,10 +28,17 @@ cd <project_directory>
 ### Running the program
 
 Before running the program, you need to set the following environment variables:
-
+```bash
 NOTION: Your Notion token
 NOTION_IDEADB: The ID of your Notion database
+OPENAI: You OpenAI API Key
+```
 You can set these variables in your shell, or you can add them to a .env file in the project root.
+```bash
+vim .zshrc
+# then add the following:
+export OPENAI="sk-youropenai-api-key"
+```
 
 To run the program, use the following command:
 ```bash
@@ -40,6 +47,12 @@ source env/bin/activate  # On Windows, use `.\env\Scripts\activate`
 pip install -r requirements.txt
 python main.py
 ```
+
+To send a file to the server:
+```bash
+curl -F file=@./test.txt -X POST http://127.0.0.1:5000/
+```
+Note: this should be done through a Shorcuts within iOS or MacOS
 
 ### Authors
 
