@@ -212,9 +212,10 @@ def generate_improvements(text: str) -> str:
     # Define the system message
     system_msg = (
         "You are an expert in adding value to idea. You improve an idea by "
-        "suggesting improvements to it. You do not add a title, a plan or an "
-        "how to do this. You are concise yet clear. You use simple text for "
-        "the output. You use the same language as in the text."
+        "suggesting improvements to it, mainly quick wins. You do not add a "
+        "title, a plan or an how to do this. You are concise yet clear. You "
+        "use simple text for the output. You use the same language as in the "
+        "text."
     )
 
     # Define the user message

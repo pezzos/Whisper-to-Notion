@@ -30,6 +30,7 @@ credentials.json
 
 # Ignore Python virtual environment
 venv/
+env/
 
 # Ignore Python bytecode cache
 __pycache__/
