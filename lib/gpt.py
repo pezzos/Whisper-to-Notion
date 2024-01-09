@@ -91,69 +91,11 @@ def completion(
             raise  # If this was the last attempt, re-raise the last exception
 
     # Assuming `completion` is your response object from OpenAI
-    content = response.choices[0].message.content
+    content = response.choices[0].message.content if response.choices else ""
+    # To test :  content = response["choices"][0]["message"]["content"] if response["choices"] else ""
 
     # Remove double quotes from the content
     return content.replace('"', "")
-
-
-def generate_title(text: str) -> str:
-    """
-    This function generates a title for a given text using the OpenAI API.
-    It sends a system message and a user message to the API, receives a
-    response, removes double quotes from the response content, and returns
-    the content.
-    """
-
-    # Define the system message
-    system_msg = (
-        "You are a motivational title generator. You write powerfull title "
-        "yet simple and concise. You use the same language as in the text."
-    )
-
-    # Define the user message
-    user_msg = f"Write me a title for this text: {text}"
-
-    # Define the model
-    model = "gpt-3.5-turbo-1106"
-
-    # Call the completion function
-    return completion(system_msg, user_msg, model)
-
-
-def generate_note(text: str) -> str:
-    """
-    This function improves the clarity of an idea by adding more context,
-    describing goals and expected results.
-    It sends a system message and a user message to the OpenAI API, receives a
-    response, removes double quotes from the response content, and returns
-    the content.
-
-    Args:
-        text (str): The idea text that needs to be improved.
-
-    Returns:
-        str: The improved idea in JSON format.
-    """
-
-    # Define the system message
-    system_msg = (
-        "You are an expert in adding value to idea. You improve the clarity "
-        "of an idea by adding more context, describing goals and expected "
-        "results. You do not add a title, a plan or an how to do this. "
-        "You are concise yet clear. You use Markdown for the output and "
-        "you structure your content in parts to ease readability. You use "
-        "the same language as in the text."
-    )
-
-    # Define the user message
-    user_msg = f"Improve this idea: {text}"
-
-    # Define the model
-    model = "gpt-4-1106-preview"
-
-    # Call the completion function
-    return completion(system_msg, user_msg, model)
 
 
 def generate_concept(text: str) -> str:
@@ -180,23 +122,70 @@ def generate_concept(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_results(text: str) -> str:
+def generate_draft(text: str) -> str:
     """
-    This function improves the clarity of an idea by describing its expected
-    results.
+    This function generate a draft for an article.
     """
 
     # Define the system message
     system_msg = (
         "You are an expert in adding value to idea. You improve the clarity "
-        "of an idea by describing its expected result for the end-user. You "
-        "do not add a title, a plan or an how to do this. You are concise yet "
+        "of an idea by describing its concept and the related reasons. You do "
+        "not add a title, a plan or an how to do this. You are concise yet "
         "clear. You use simple text for the output. You use the same language "
         "as in the text."
     )
 
     # Define the user message
-    user_msg = f"Describe the expected results of this idea: {text}"
+    user_msg = f"Describe the concept of this idea: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_events(text: str) -> str:
+    """
+    This function extract the events from a text.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert to understand content. You extract from the "
+        "texts all the described events. You rephrase them and create an "
+        "ordererd list of them. You are concise yet clear. You use simple "
+        "list for the output without formatting. You use the same language "
+        "as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Extract the events from this text: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_followup(text: str) -> str:
+    """
+    This function suggests follow-ups for tasks.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert in productivity. You suggest follow-ups for "
+        "lists of tasks, helping me to avoid missing the big picture or todo."
+        "You create an ordererd list of them. You are concise yet clear. You "
+        "use simple list for the output without formatting. You use the same "
+        "language as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Suggest followup from these tasks: {text}"
 
     # Define the model
     model = "gpt-4-1106-preview"
@@ -243,10 +232,181 @@ def generate_improvements(text: str) -> str:
     )
 
     # Define the user message
-    user_msg = f"Add improvement to this idea: {text}"
+    user_msg = f"Suggest improvement to this idea: {text}"
 
     # Define the model
     model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_mood(text: str) -> str:
+    """
+    This function extract the moods from a text.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert to understand emotions and feelings from the dia of a user. You extract from the texts written by the narator his moods and feeling. You create a "
+        "list of them. You are concise yet clear. You use simple list for the "
+        "output without formatting. You use the same language as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Extract the moods from this text: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_name(text: str) -> str:
+    """
+    This function generates a name to sum up a given text using the OpenAI API.
+    It sends a system message and a user message to the API, receives a
+    response, removes double quotes from the response content, and returns
+    the content.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert to summarize content. You write a simple and "
+        "concise title about a content, it should be no longer than a "
+        "sentence. You use the same language as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Summarize this text in a title: {text}"
+
+    # Define the model
+    model = "gpt-3.5-turbo-1106"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_preparation(text: str) -> str:
+    """
+    This function suggests preparation for tasks.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert in productivity. You suggest preparation to do in "
+        "order to easily handle a task, helping me to avoid missing the big "
+        "picture or todo. You create an ordererd list of them. You are "
+        "concise yet clear. You use simple list for the output without "
+        "formatting. You use the same language as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Suggest preparation to do in order to handle these tasks: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_recommandations(moods: str, events: str) -> str:
+    """
+    This function generate recommandation to self improve based
+    on moods and events.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert to helping person with theirs emotions and "
+        "feelings. You suggest recommandations to self improve based "
+        "moods and the events occured during the day. The recommandations "
+        "are limited to one or two, and their are easy to put in place. "
+        "You create a list of them. You are concise yet clear. You use simple "
+        "list for the output without formatting. You use the same language as "
+        "in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Suggest recommandation for user feeling: {moods} and having these events today: {events}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_results(text: str) -> str:
+    """
+    This function improves the clarity of an idea by describing its expected
+    results.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert in adding value to idea. You improve the clarity "
+        "of an idea by describing its expected result for the end-user. You "
+        "do not add a title, a plan or an how to do this. You are concise yet "
+        "clear. You use simple text for the output. You use the same language "
+        "as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Describe the expected results of this idea: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_tasks(text: str) -> str:
+    """
+    This function extract the tasks from a text.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert to understand content. You extract from the "
+        "texts all the described tasks. You rephrase them and create an "
+        "ordererd list of them. You are concise yet clear. You use simple "
+        "list for the output without formatting. You use the same language "
+        "as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Extract the tasks from this text: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_title(text: str) -> str:
+    """
+    This function generates a title for a given text using the OpenAI API.
+    It sends a system message and a user message to the API, receives a
+    response, removes double quotes from the response content, and returns
+    the content.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are a motivational title generator. You write powerfull title "
+        "yet simple and concise. You use the same language as in the text."
+    )
+
+    # Define the user message
+    user_msg = f"Write me a title for this text: {text}"
+
+    # Define the model
+    model = "gpt-3.5-turbo-1106"
 
     # Call the completion function
     return completion(system_msg, user_msg, model)
