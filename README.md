@@ -30,7 +30,6 @@ cd <project_directory>
 Before running the program, you need to set the following environment variables:
 ```bash
 NOTION: Your Notion token
-NOTION_IDEADB: The ID of your Notion database
 OPENAI: You OpenAI API Key
 ```
 You can set these variables in your shell, or you can add them to a .env file in the project root.
@@ -39,6 +38,13 @@ vim .zshrc
 # then add the following:
 export OPENAI="sk-youropenai-api-key"
 ```
+
+You also neeed to create your config.json:
+```bash
+mv config.json.template config.json
+# then update it according to your setup
+```
+:wq
 
 To run the program, use the following command:
 ```bash
