@@ -10,7 +10,11 @@ https://medium.com/@pratikdeshmukhlobhi2004/notion-api-with-python-916024cb9138
 # from dataclasses import dataclass, asdict
 
 import json
+import os
+from typing import Optional
 import requests
+
+notion_token: Optional[str] = os.environ.get("NOTION")
 
 
 def format_row(payload, db: str):
@@ -52,7 +56,7 @@ def format_row(payload, db: str):
     return row
 
 
-def create_new_row(db: str, token: str, payload):
+def create_new_row(db: str, payload):
     """
     This function creates a new row in the database.
     exemple:
@@ -60,12 +64,14 @@ def create_new_row(db: str, token: str, payload):
         'Name': {"type": "title", "value": "New Row in Table"},
         'Status': {"type": "select", "value": "To Do" }
         }
-    create_new_row(database_id, token, payload)
+    create_new_row(database_id, payload)
     """
+    if notion_token is None:
+        raise ValueError("NOTION environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
-            "Authorization": "Bearer " + token,
+            "Authorization": "Bearer " + notion_token,
             "Content-Type": "application/json",
         }
         url = "https://api.notion.com/v1/pages"
@@ -80,15 +86,17 @@ def create_new_row(db: str, token: str, payload):
         return None
 
 
-def get_page_by_id(token: str, page_id: str):
+def get_page_by_id(page_id: str):
     """
     This function fetches a page by its ID.
-    example: get_page_by_id(token, "59eff577-418d-4ece-bb83-1ee2e3aa51ce")
+    example: get_page_by_id("59eff577-418d-4ece-bb83-1ee2e3aa51ce")
     """
+    if notion_token is None:
+        raise ValueError("NOTION environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
-            "Authorization": "Bearer " + token,
+            "Authorization": "Bearer " + notion_token,
             "Content-Type": "application/json",
         }
         url = "https://api.notion.com/v1/pages/" + page_id
@@ -100,7 +108,7 @@ def get_page_by_id(token: str, page_id: str):
         return None
 
 
-def update_notion_row(db, token, page_id, payload):
+def update_notion_row(db, page_id, payload):
     """
     This function updates a row in the database.
     example:
@@ -108,12 +116,14 @@ def update_notion_row(db, token, page_id, payload):
         'Name': {"type": "title", "value": "New Row in Table updated"},
         'Status': {"type": "select", "value": "Done" }
         }
-    update_notion_row(database_id ,token, page_id, payload)
+    update_notion_row(database_id, page_id, payload)
     """
+    if notion_token is None:
+        raise ValueError("NOTION environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
-            "Authorization": "Bearer " + token,
+            "Authorization": "Bearer " + notion_token,
             "Content-Type": "application/json",
         }
         url = "https://api.notion.com/v1/pages/" + page_id
@@ -129,16 +139,18 @@ def update_notion_row(db, token, page_id, payload):
         return None
 
 
-def delete_row_by_id(token, page_id):
+def delete_row_by_id(page_id):
     """
     This function deletes a row by its ID.
     example:
-    delete_row_by_id(token, "59eff577-418d-4ece-bb83-1ee2e3aa51ce")
+    delete_row_by_id("59eff577-418d-4ece-bb83-1ee2e3aa51ce")
     """
+    if notion_token is None:
+        raise ValueError("NOTION environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
-            "Authorization": "Bearer " + token,
+            "Authorization": "Bearer " + notion_token,
             "Content-Type": "application/json",
         }
         url = "https://api.notion.com/v1/blocks/" + page_id
