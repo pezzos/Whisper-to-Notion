@@ -1,0 +1,40 @@
+{
+    "items": [
+        {
+            "name": "Item 1",
+            "key": "notion_DB_ID_1",
+            "keywords": [
+                "keyword1",
+                "keyword2"
+            ],
+            "fields": [
+                "field1",
+                "field2"
+            ]
+        },
+        {
+            "name": "Item 2",
+            "key": "notion_DB_ID_2",
+            "keywords": [
+                "keyword3",
+                "keyword4"
+            ],
+            "fields": [
+                "field3",
+                "field4"
+            ]
+        },
+        {
+            "name": "Item 3",
+            "key": "notion_DB_ID_3",
+            "keywords": [
+                "keyword5",
+                "keyword6"
+            ],
+            "fields": [
+                "field5",
+                "field6"
+            ]
+        }
+    ]
+}
