@@ -90,6 +90,14 @@ curl -F file=@./test.txt -X POST http://127.0.0.1:5000/
 ```
 Note: this should be done through a Shorcuts within iOS or MacOS
 
+### iOS/MacOS Shortcut
+
+For now, this script is only usable locally.
+So, the Shortcut must run on the same computer as this script.
+
+The Shortcut to use it locally is available there:
+[Shortcut: Whisper-to-Notion](https://www.icloud.com/shortcuts/b1a0c95e85ad430894dab9856e1d86ad)
+
 ### Authors
 
 Alexandre 'Pezzos' Pezzotta 
