@@ -2,6 +2,13 @@
 
 This project is about simplifying the note taking, the idea dropping, etc.
 Thanks to a simple iOS Shortcuts, you capture a little piece of audio and it is brought to Notion and enriched with valuable insight, based on your expectations.
+It could be used to:
+- maintain a personal diary with external feedback, 
+- draft idea of projects, 
+- log your daily work and never forget the followup, 
+- add tasks to your todolist with informations about preparation, 
+- log your dreams and get interpretation, 
+- draft an article for a blog...
 
 ## Getting Started
 
@@ -63,6 +70,7 @@ For now, the available fields are:
 - Tasks: extracts the tasks from a text
 - Title: give a motivational title to an idea, a project
 - Weather
+
 And for technical reasons, some fields are dependant from other and should be listed before the required ones:
 - Followup requires Tasks
 - Preparation requires Tasks
