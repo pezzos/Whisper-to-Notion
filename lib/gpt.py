@@ -25,14 +25,14 @@ logging.basicConfig(
 )
 
 
-def transcribe(file_path: str) -> str:
+def transcribe(audio_file_path: str) -> str:
     """
     This function takes a file path as an argument, reads the content
     of the file, and calls the OpenAI Whisper API to generate a response.
     It returns the generated response as a string.
 
     Args:
-        file_path (str): The path to the file.
+        audio_file_path (str): The path to the file.
 
     Returns:
         str: The generated response from the OpenAI Whisper API.
@@ -41,8 +41,17 @@ def transcribe(file_path: str) -> str:
         logging.error("OPENAI environment variable is not set", exc_info=True)
         raise ValueError("OPENAI environment variable is not set.")
 
-    audio_file = open(file_path, "rb")
+    audio_file = open(audio_file_path, "rb")
     transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
+    audio_file.close()
+
+    # Create a file path for the transcript from the audio file path
+    transcript_file_path = audio_file_path.replace(".m4a", ".txt")
+
+    # Save the transcript to a file
+    with open(transcript_file_path, "w", encoding="utf-8") as f:
+        f.write(transcript.text)
+
     logging.info("Transcription: %s", transcript.text)
     return transcript.text
 
