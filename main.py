@@ -80,7 +80,7 @@ def load_config(text: str):
     return None
 
 
-def generate_content(text: str, db: str, fields: list):
+def generate_content(text: str, db: str, fields: list, lang: str):
     """
     This function generates the content for the Notion database
     """
@@ -93,44 +93,44 @@ def generate_content(text: str, db: str, fields: list):
 
     for field in fields:
         if field == "Concept":
-            concept = generate_concept(text)
+            concept = generate_concept(text, language=lang)
             payload[field] = {"type": "rich_text", "value": concept}
         elif field == "Date":
             payload[field] = {"type": "date", "value": {"start": date}}
         elif field == "Events":
-            events = generate_events(text)
+            events = generate_events(text, language=lang)
             payload[field] = {"type": "rich_text", "value": events}
         elif field == "Followup":
-            followup = generate_followup(tasks)
+            followup = generate_followup(tasks, language=lang)
             payload[field] = {"type": "rich_text", "value": followup}
         elif field == "Goals":
-            goals = generate_goals(text)
+            goals = generate_goals(text, language=lang)
             payload[field] = {"type": "rich_text", "value": goals}
         elif field == "Improvements":
-            improvements = generate_improvements(text)
+            improvements = generate_improvements(text, language=lang)
             payload[field] = {"type": "rich_text", "value": improvements}
         elif field == "Input":
             payload[field] = {"type": "rich_text", "value": text}
         elif field == "Mood":
-            mood = generate_mood(text)
+            mood = generate_mood(text, language=lang)
             payload[field] = {"type": "rich_text", "value": mood}
         elif field == "Name":
-            name = generate_name(text)
+            name = generate_name(text, language=lang)
             payload[field] = {"type": "rich_text", "value": name}
         elif field == "Preparation":
-            preparation = generate_preparation(tasks)
+            preparation = generate_preparation(tasks, language=lang)
             payload[field] = {"type": "rich_text", "value": preparation}
         elif field == "Recommendations":
-            recommandations = generate_recommandations(mood, events)
+            recommandations = generate_recommandations(mood, events, language=lang)
             payload[field] = {"type": "rich_text", "value": recommandations}
         elif field == "Results":
-            result = generate_results(text)
+            result = generate_results(text, language=lang)
             payload[field] = {"type": "rich_text", "value": result}
         elif field == "Tasks":
-            tasks = generate_tasks(text)
+            tasks = generate_tasks(text, language=lang)
             payload[field] = {"type": "rich_text", "value": tasks}
         elif field == "Title":
-            title = generate_title(text)
+            title = generate_title(text, language=lang)
             payload[field] = {"type": "title", "value": title}
         elif field == "Weather":
             # Todo: call the weather API
@@ -180,7 +180,9 @@ def generate():
 
     if idea is not None:
         # Call your main function with the idea from the request
-        generate_content(idea, database_id, destination["fields"])
+        generate_content(
+            idea, database_id, destination["fields"], destination["language"]
+        )
         logging.debug("The content is generated")
         return jsonify({"message": "Success"}), 200
     logging.error("No idea provided", exc_info=True)

@@ -124,7 +124,7 @@ def completion(
     return content.replace('"', "")
 
 
-def generate_concept(text: str) -> str:
+def generate_concept(text: str, language: str) -> str:
     """
     This function improves the clarity of an idea by describing its concept.
     """
@@ -134,8 +134,8 @@ def generate_concept(text: str) -> str:
         "You are an expert in adding value to idea. You improve the clarity "
         "of an idea by describing its concept and the related reasons. You do "
         "not add a title, a plan or an how to do this. You are concise yet "
-        "clear. You use simple text for the output. You use the same language "
-        "as in the text."
+        f"clear. You use simple text for the output. You use {language} as "
+        "output language."
     )
 
     # Define the user message
@@ -148,7 +148,7 @@ def generate_concept(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_draft(text: str) -> str:
+def generate_draft(text: str, language: str) -> str:
     """
     This function generate a draft for an article.
     """
@@ -158,8 +158,8 @@ def generate_draft(text: str) -> str:
         "You are an expert in adding value to idea. You improve the clarity "
         "of an idea by describing its concept and the related reasons. You do "
         "not add a title, a plan or an how to do this. You are concise yet "
-        "clear. You use simple text for the output. You use the same language "
-        "as in the text."
+        f"clear. You use simple text for the output. You use {language} as "
+        "output language."
     )
 
     # Define the user message
@@ -172,7 +172,7 @@ def generate_draft(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_events(text: str) -> str:
+def generate_events(text: str, language: str) -> str:
     """
     This function extract the events from a text.
     """
@@ -182,8 +182,8 @@ def generate_events(text: str) -> str:
         "You are an expert to understand content. You extract from the "
         "texts all the described events. You rephrase them and create an "
         "ordererd list of them. You are concise yet clear. You use simple "
-        "list for the output without formatting. You use the same language "
-        "as in the text."
+        f"list for the output without formatting. You use {language} as "
+        "output language."
     )
 
     # Define the user message
@@ -196,7 +196,7 @@ def generate_events(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_followup(text: str) -> str:
+def generate_followup(text: str, language: str) -> str:
     """
     This function suggests follow-ups for tasks.
     """
@@ -206,8 +206,8 @@ def generate_followup(text: str) -> str:
         "You are an expert in productivity. You suggest follow-ups for "
         "lists of tasks, helping me to avoid missing the big picture or todo."
         "You create an ordererd list of them. You are concise yet clear. You "
-        "use simple list for the output without formatting. You use the same "
-        "language as in the text."
+        "use simple list for the output without formatting. You use "
+        f"{language} as output language"
     )
 
     # Define the user message
@@ -220,7 +220,7 @@ def generate_followup(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_goals(text: str) -> str:
+def generate_goals(text: str, language: str) -> str:
     """
     This function improves the clarity of an idea by describing its goals.
     """
@@ -229,8 +229,8 @@ def generate_goals(text: str) -> str:
     system_msg = (
         "You are an expert in adding value to idea. You improve the clarity "
         "of an idea by describing its goals. You do not add a title, a plan "
-        "or an how to do this. You are concise yet clear. You use simple text "
-        "for the output. You use the same language as in the text."
+        f"or an how to do this. You are concise yet clear. You use {language} "
+        "as output language."
     )
 
     # Define the user message
@@ -243,7 +243,7 @@ def generate_goals(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_improvements(text: str) -> str:
+def generate_improvements(text: str, language: str) -> str:
     """
     This function improves an idea by suggesting improvement.
     """
@@ -253,8 +253,8 @@ def generate_improvements(text: str) -> str:
         "You are an expert in adding value to idea. You improve an idea by "
         "suggesting improvements to it, mainly quick wins. You do not add a "
         "title, a plan or an how to do this. You are concise yet clear. You "
-        "use simple text for the output. You use the same language as in the "
-        "text."
+        f"use simple text for the output. You use {language} as output "
+        "language."
     )
 
     # Define the user message
@@ -267,16 +267,16 @@ def generate_improvements(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_mood(text: str) -> str:
+def generate_mood(text: str, language: str) -> str:
     """
     This function extract the moods from a text.
     """
 
     # Define the system message
     system_msg = (
-        "You are an expert to understand emotions and feelings from the dia of a user. You extract from the texts written by the narator his moods and feeling. You create a "
+        "You are an expert to understand emotions and feelings from the diary of a user. You extract from the texts written by the narator his moods and feeling. You create a "
         "list of them. You are concise yet clear. You use simple list for the "
-        "output without formatting. You use the same language as in the text."
+        f"output without formatting. You use {language} as output language"
     )
 
     # Define the user message
@@ -289,7 +289,7 @@ def generate_mood(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_name(text: str) -> str:
+def generate_name(text: str, language: str) -> str:
     """
     This function generates a name to sum up a given text using the OpenAI API.
     It sends a system message and a user message to the API, receives a
@@ -301,7 +301,7 @@ def generate_name(text: str) -> str:
     system_msg = (
         "You are an expert to summarize content. You write a simple and "
         "concise title about a content, it should be no longer than a "
-        "sentence. You use the same language as in the text."
+        f"sentence. You use {language} as output language."
     )
 
     # Define the user message
@@ -314,7 +314,7 @@ def generate_name(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_preparation(text: str) -> str:
+def generate_preparation(text: str, language: str) -> str:
     """
     This function suggests preparation for tasks.
     """
@@ -325,7 +325,7 @@ def generate_preparation(text: str) -> str:
         "order to easily handle a task, helping me to avoid missing the big "
         "picture or todo. You create an ordererd list of them. You are "
         "concise yet clear. You use simple list for the output without "
-        "formatting. You use the same language as in the text."
+        f"formatting. You use {language} as output language"
     )
 
     # Define the user message
@@ -338,7 +338,7 @@ def generate_preparation(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_recommandations(moods: str, events: str) -> str:
+def generate_recommandations(moods: str, events: str, language: str) -> str:
     """
     This function generate recommandation to self improve based
     on moods and events.
@@ -351,8 +351,8 @@ def generate_recommandations(moods: str, events: str) -> str:
         "moods and the events occured during the day. The recommandations "
         "are limited to one or two, and their are easy to put in place. "
         "You create a list of them. You are concise yet clear. You use simple "
-        "list for the output without formatting. You use the same language as "
-        "in the text."
+        f"list for the output without formatting. You use {language} as "
+        "output language."
     )
 
     # Define the user message
@@ -365,7 +365,7 @@ def generate_recommandations(moods: str, events: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_results(text: str) -> str:
+def generate_results(text: str, language: str) -> str:
     """
     This function improves the clarity of an idea by describing its expected
     results.
@@ -376,8 +376,8 @@ def generate_results(text: str) -> str:
         "You are an expert in adding value to idea. You improve the clarity "
         "of an idea by describing its expected result for the end-user. You "
         "do not add a title, a plan or an how to do this. You are concise yet "
-        "clear. You use simple text for the output. You use the same language "
-        "as in the text."
+        f"clear. You use simple text for the output. You use {language} "
+        "as output language."
     )
 
     # Define the user message
@@ -390,7 +390,7 @@ def generate_results(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_tasks(text: str) -> str:
+def generate_tasks(text: str, language: str) -> str:
     """
     This function extract the tasks from a text.
     """
@@ -400,8 +400,8 @@ def generate_tasks(text: str) -> str:
         "You are an expert to understand content. You extract from the "
         "texts all the described tasks. You rephrase them and create an "
         "ordererd list of them. You are concise yet clear. You use simple "
-        "list for the output without formatting. You use the same language "
-        "as in the text."
+        f"list for the output without formatting. You use {language} "
+        "as output language."
     )
 
     # Define the user message
@@ -414,7 +414,7 @@ def generate_tasks(text: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_title(text: str) -> str:
+def generate_title(text: str, language: str) -> str:
     """
     This function generates a title for a given text using the OpenAI API.
     It sends a system message and a user message to the API, receives a
@@ -425,7 +425,7 @@ def generate_title(text: str) -> str:
     # Define the system message
     system_msg = (
         "You are a motivational title generator. You write powerfull title "
-        "yet simple and concise. You use the same language as in the text."
+        f"yet simple and concise. You use {language} as output language."
     )
 
     # Define the user message
