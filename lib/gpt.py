@@ -6,6 +6,7 @@ Library to handle OpenAPI GPT API calls.
 # from typing import Optional
 # from dataclasses import dataclass, asdict
 
+import logging
 import os
 import requests
 
@@ -14,6 +15,14 @@ from openai import OpenAI, OpenAIError
 
 client = OpenAI(api_key=os.environ.get("OPENAI"))
 MAX_RETRIES = 3
+
+# Set loggin config
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    filename="gpt.log",
+    filemode="w",
+)
 
 
 def transcribe(file_path: str) -> str:
@@ -29,11 +38,12 @@ def transcribe(file_path: str) -> str:
         str: The generated response from the OpenAI Whisper API.
     """
     if not os.environ.get("OPENAI"):
+        logging.error("OPENAI environment variable is not set", exc_info=True)
         raise ValueError("OPENAI environment variable is not set.")
 
     audio_file = open(file_path, "rb")
     transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
-
+    logging.info("Transcription: %s", transcript.text)
     return transcript.text
 
 
@@ -57,6 +67,7 @@ def completion(
         removed.
     """
     if not os.environ.get("OPENAI"):
+        logging.error("OPENAI environment variable is not set", exc_info=True)
         raise ValueError("OPENAI environment variable is not set.")
     response = {
         "choices": [
@@ -85,16 +96,22 @@ def completion(
             break
         except (requests.exceptions.Timeout, OpenAIError) as e:
             if i < MAX_RETRIES - 1:  # i is zero indexed
+                logging.warn(f"Retrying {i+1}/{MAX_RETRIES}...")
                 print(f"Retrying {i+1}/{MAX_RETRIES}...")
                 continue  # Try again
+            logging.error(f"Error: {e}")
             print(f"Error: {e}")
             raise  # If this was the last attempt, re-raise the last exception
 
     # Assuming `completion` is your response object from OpenAI
     content = response.choices[0].message.content if response.choices else ""
-    # To test :  content = response["choices"][0]["message"]["content"] if response["choices"] else ""
+    # To test :
+    # content = response["choices"][0]["message"]["content"]
+    # if response["choices"]
+    # else ""
 
     # Remove double quotes from the content
+    logging.debug("The content is: %s", content)
     return content.replace('"', "")
 
 

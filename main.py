@@ -3,6 +3,7 @@ Create the content to send into the Notion database
 """
 import datetime
 import json
+import logging
 import os
 
 from flask import Flask, request, jsonify
@@ -25,12 +26,17 @@ from lib.gpt import (
     transcribe,
 )
 
+# Set loggin config
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    filename="main.log",
+    filemode="w",
+)
+
+# Set default settings for the app
 UPLOAD_FOLDER = "./uploads"
 ALLOWED_EXTENSIONS = {"m4a"}
-
-# Load the JSON config file
-with open("config.json", encoding="utf-8") as f:
-    config = json.load(f)
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -50,19 +56,28 @@ def load_config(text: str):
     """
     # Get the first sentence of the text, we'll search the first keyword that
     # could match in it
+
     first_sentence = text.split(".")[0]
     # Load the JSON config file in a Python dictionary
-    with open("config.json", encoding="utf-8") as f:
-        user_config = json.load(f)
+    # Initialize user_config variable
+    user_config = None
+    try:
+        with open("config.json", encoding="utf-8") as f:
+            user_config = json.load(f)
+    except FileNotFoundError:
+        logging.error("The config.json is not found", exc_info=True)
     # Select only one item in the dictionnary, the one that matches the text
     # inside the keywords value
-    for destination in user_config["destinations"]:
-        # For each word in the first sentence of the text
-        for word in first_sentence.split():
-            if word in destination["keywords"]:
-                user_config = destination
-                break
-    return user_config
+    if user_config is not None:
+        for destination in user_config["destinations"]:
+            # For each word in the first sentence of the text
+            for word in first_sentence.split():
+                if word in destination["keywords"]:
+                    user_config = destination
+                    break
+        return user_config
+    logging.error("The config.json is empty", exc_info=True)
+    return None
 
 
 def generate_content(text: str, db: str, fields: list):
@@ -124,7 +139,7 @@ def generate_content(text: str, db: str, fields: list):
             payload[field] = {"type": "rich_text", "value": "No implementation yet"}
         else:
             payload[field] = {"type": "rich_text", "value": text}
-
+    logging.debug("The payload is: %s", payload)
     create_new_row(db, payload)
 
 
@@ -136,31 +151,39 @@ def generate():
 
     # check if the post request has the file part
     if "file" not in request.files:
+        logging.error("No file in the POST request", exc_info=True)
         return jsonify({"message": "File missing"}), 400
 
     file = request.files["file"]
+    logging.debug("The file is: %s", file)
 
     if file is not None and allowed_file(file.filename):
         if file.filename is not None:
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            logging.debug("The file path is: %s", filepath)
         else:
+            logging.error("The file name is invalid", exc_info=True)
             return jsonify({"message": "Invalid file name"}), 400
     else:
+        logging.error("The file is invalid", exc_info=True)
         return jsonify({"message": "Invalid file"}), 400
 
     idea = transcribe(filepath)
     destination = load_config(idea)
+    logging.debug("The destination is: %s", destination)
     print(f"Doing:{destination['name']}")
     database_id = destination["db_id"]
+    logging.debug("The database id is: %s", database_id)
     print(f"Db:{database_id}")
 
     if idea is not None:
         # Call your main function with the idea from the request
         generate_content(idea, database_id, destination["fields"])
-
+        logging.debug("The content is generated")
         return jsonify({"message": "Success"}), 200
+    logging.error("No idea provided", exc_info=True)
     return jsonify({"message": "No idea provided"}), 400
 
 
