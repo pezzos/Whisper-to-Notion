@@ -40,5 +40,6 @@ __pycache__/
 .DS_Store
 
 # Ignore user configuration and uploads
-*.mp4
+*.m4a
+*.txt
 config.json
