@@ -69,15 +69,16 @@ def load_config(text: str):
     # Select only one item in the dictionnary, the one that matches the text
     # inside the keywords value
     if user_config is not None:
-        for destination in user_config["destinations"]:
-            # For each word in the first sentence of the text
-            for word in first_sentence.split():
+        for word in first_sentence.split():
+            # Remove any punctuations and lower the word
+            word = word.lower().strip(".,!?")
+            logging.debug("The word is: %s", word)
+            for destination in user_config["destinations"]:
+                logging.debug("The destination is: %s", destination)
                 if word in destination["keywords"]:
-                    user_config = destination
-                    break
-        return user_config
-    logging.error("The config.json is empty", exc_info=True)
-    return None
+                    logging.debug("The destination is: %s", destination)
+                    return destination
+    raise ValueError("No destination found")
 
 
 def generate_content(text: str, db: str, fields: list, lang: str):
@@ -116,7 +117,7 @@ def generate_content(text: str, db: str, fields: list, lang: str):
             payload[field] = {"type": "rich_text", "value": mood}
         elif field == "Name":
             name = generate_name(text, language=lang)
-            payload[field] = {"type": "rich_text", "value": name}
+            payload[field] = {"type": "title", "value": name}
         elif field == "Preparation":
             preparation = generate_preparation(tasks, language=lang)
             payload[field] = {"type": "rich_text", "value": preparation}
@@ -170,7 +171,10 @@ def generate():
         logging.error("The file is invalid", exc_info=True)
         return jsonify({"message": "Invalid file"}), 400
 
+    # Trasncribe the audio file
     idea = transcribe(filepath)
+
+    # Load the config file
     destination = load_config(idea)
     logging.debug("The destination is: %s", destination)
     print(f"Doing:{destination['name']}")
