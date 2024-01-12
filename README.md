@@ -111,3 +111,17 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 {'object': 'error', 'status': 400, 'code': 'validation_error', 'message': 'Recommendations is not a property that exists.', 'request_id': 'some-caracters'}
 ```
 It means the field you add in the config.json has a different name from your Notion DB, please update your Notion DB.
+
+### TODO
+
+- [ ] Fallback to a default config if no config is found
+- [ ] Make it run from a server (not only locally)
+- [ ] Add the different keys into the config.json
+- [ ] Allow the endpoint to be called by different users
+- [ ] Add more examples in a dedicated README.md to understand the different use-cases
+- [ ] Output to a Notion page
+- [ ] Output to something else (like a blog post)
+- [ ] Input: Weather
+- [ ] Input: Health and Activity
+- [ ] Input: Calendar
+- [ ] Add an UI for users to handle their config
