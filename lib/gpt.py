@@ -43,6 +43,7 @@ def transcribe(audio_file_path: str) -> str:
 
     audio_file = open(audio_file_path, "rb")
     transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
+
     audio_file.close()
 
     # Create a file path for the transcript from the audio file path
@@ -105,11 +106,9 @@ def completion(
             break
         except (requests.exceptions.Timeout, OpenAIError) as e:
             if i < MAX_RETRIES - 1:  # i is zero indexed
-                logging.warn(f"Retrying {i+1}/{MAX_RETRIES}...")
-                print(f"Retrying {i+1}/{MAX_RETRIES}...")
+                logging.warning("Retrying %s/%s...", i + 1, MAX_RETRIES)
                 continue  # Try again
-            logging.error(f"Error: {e}")
-            print(f"Error: {e}")
+            logging.error("Error: %s", e)
             raise  # If this was the last attempt, re-raise the last exception
 
     # Assuming `completion` is your response object from OpenAI
@@ -274,9 +273,11 @@ def generate_mood(text: str, language: str) -> str:
 
     # Define the system message
     system_msg = (
-        "You are an expert to understand emotions and feelings from the diary of a user. You extract from the texts written by the narator his moods and feeling. You create a "
-        "list of them. You are concise yet clear. You use simple list for the "
-        f"output without formatting. You use {language} as output language"
+        "You are an expert to understand emotions and feelings from the diary "
+        "of a user. You extract from the texts written by the narator his "
+        "general moods and feeling. You create a list of them and limit to "
+        "2-3 main moods. You are concise yet clear. You use simple list for "
+        f"the output without formatting. You use {language} as output language"
     )
 
     # Define the user message
@@ -329,7 +330,7 @@ def generate_preparation(text: str, language: str) -> str:
     )
 
     # Define the user message
-    user_msg = f"Suggest preparation to do in order to handle these tasks: {text}"
+    user_msg = "Suggest preparation to do in order to handle these tasks: " f"{text}"
 
     # Define the model
     model = "gpt-4-1106-preview"
@@ -349,14 +350,18 @@ def generate_recommandations(moods: str, events: str, language: str) -> str:
         "You are an expert to helping person with theirs emotions and "
         "feelings. You suggest recommandations to self improve based "
         "moods and the events occured during the day. The recommandations "
-        "are limited to one or two, and their are easy to put in place. "
+        "are limited to one or two, excluding writing in a diary as it's "
+        "already done. The recommendations are easy to put in place. "
         "You create a list of them. You are concise yet clear. You use simple "
         f"list for the output without formatting. You use {language} as "
         "output language."
     )
 
     # Define the user message
-    user_msg = f"Suggest recommandation for user feeling: {moods} and having these events today: {events}"
+    user_msg = (
+        f"Suggest recommandation for user feeling: {moods} and having "
+        f"these events today: {events}"
+    )
 
     # Define the model
     model = "gpt-4-1106-preview"
