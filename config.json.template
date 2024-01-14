@@ -1,5 +1,16 @@
 {
     "items": [
+                {
+            "name": "Default",
+            "language": "french",
+            "db_id": "notion_DB_ID_DEFAULT",
+            "keywords": [],
+            "fields": [
+                "Date",
+                "Name",
+                "Input"
+            ]
+        },
         {
             "name": "Item 1",
             "language": "french",

@@ -78,7 +78,9 @@ def load_config(text: str):
                 if word in destination["keywords"]:
                     logging.debug("The destination is: %s", destination)
                     return destination
-    raise ValueError("No destination found")
+    logging.warning("No config file found, using default", exc_info=True)
+    # Fallback to the first item in the config file
+    return user_config["destinations"][0]
 
 
 def generate_content(text: str, db: str, fields: list, lang: str):

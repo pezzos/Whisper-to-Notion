@@ -53,6 +53,7 @@ mv config.json.template config.json
 # then update it according to your setup
 ```
 This file is filed with some example you can use.
+The first destination is "Default", it means to be used only when you try to take a note but no keyword matches the other destinations. This way, you won't loose any request.
 Keep in mind that each Notion DB (see: db_id) has fields described in this file and you MUST respect the same name in your Notion DB in order to have it works.
 For now, the available fields are:
 - Concept: to describe the concept of an idea, a project
@@ -114,7 +115,7 @@ It means the field you add in the config.json has a different name from your Not
 
 ### TODO
 
-- [ ] Fallback to a default config if no config is found
+- [X] Fallback to a default config if no config is found
 - [ ] Make it run from a server (not only locally)
 - [ ] Add the different keys into the config.json
 - [ ] Allow the endpoint to be called by different users
