@@ -32,6 +32,10 @@ Navigate into the project directory:
 ```bash
 cd Whisper-to-Notion
 ```
+Run the install.sh script as root
+```bash
+sudo ./install.sh
+``
 
 ### Running the program
 

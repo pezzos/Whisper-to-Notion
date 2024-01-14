@@ -13,9 +13,11 @@ import json
 import logging
 import os
 from typing import Optional
+from dotenv import load_dotenv
 import requests
 
-notion_token: Optional[str] = os.environ.get("NOTION")
+load_dotenv()
+notion_token: Optional[str] = os.environ.get("NOTION_API_KEY")
 
 # Set loggin config
 logging.basicConfig(

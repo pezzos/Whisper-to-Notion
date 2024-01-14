@@ -30,7 +30,7 @@ from lib.gpt import (
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    filename="main.log",
+    filename="/var/log/whispoer-to-notion-main.log",
     filemode="w",
 )
 

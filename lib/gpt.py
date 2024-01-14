@@ -10,10 +10,12 @@ import logging
 import os
 import requests
 
+from dotenv import load_dotenv
 from openai import OpenAI, OpenAIError
 
+load_dotenv()
 
-client = OpenAI(api_key=os.environ.get("OPENAI"))
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 MAX_RETRIES = 3
 
 # Set loggin config
