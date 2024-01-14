@@ -1,0 +1,11 @@
+[Unit]
+Description=Whisper-to-Notion
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /opt/Whisper-to-Notion/main.py
+
+[Install]
+WantedBy=multi-user.target
