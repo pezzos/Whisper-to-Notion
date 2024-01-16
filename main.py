@@ -6,6 +6,7 @@ import json
 import logging
 import os
 
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 
@@ -26,17 +27,24 @@ from lib.gpt import (
     transcribe,
 )
 
+load_dotenv()
+
 # Set loggin config
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    filename="/var/log/whispoer-to-notion-main.log",
+    filename="/var/log/whisper-to-notion.log",
     filemode="w",
 )
 
+# Get the script directory
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 # Set default settings for the app
-UPLOAD_FOLDER = "./uploads"
+UPLOAD_FOLDER = SCRIPT_DIR + "/uploads"
+CONFIG_FILE = SCRIPT_DIR + "/config.json"
 ALLOWED_EXTENSIONS = {"m4a"}
+PORT = os.environ.get("PORT")
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -59,13 +67,12 @@ def load_config(text: str):
 
     first_sentence = text.split(".")[0]
     # Load the JSON config file in a Python dictionary
-    # Initialize user_config variable
-    user_config = None
     try:
-        with open("config.json", encoding="utf-8") as f:
+        with open(CONFIG_FILE, encoding="utf-8") as f:
             user_config = json.load(f)
     except FileNotFoundError:
         logging.error("The config.json is not found", exc_info=True)
+        user_config = None
     # Select only one item in the dictionnary, the one that matches the text
     # inside the keywords value
     if user_config is not None:
@@ -78,9 +85,12 @@ def load_config(text: str):
                 if word in destination["keywords"]:
                     logging.debug("The destination is: %s", destination)
                     return destination
-    logging.warning("No config file found, using default", exc_info=True)
-    # Fallback to the first item in the config file
-    return user_config["destinations"][0]
+        # Fallback to the first item in the config file
+        logging.warning("No destination found, using default", exc_info=True)
+        return user_config["destinations"][0]
+    else:
+        logging.error("No config file found, using default", exc_info=True)
+        raise FileNotFoundError
 
 
 def generate_content(text: str, db: str, fields: list, lang: str):
@@ -196,4 +206,4 @@ def generate():
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(host="0.0.0.0", port=PORT)

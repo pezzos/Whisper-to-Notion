@@ -36,6 +36,10 @@ echo "Creating virtual environment"
 python3 -m venv /opt/Whisper-to-Notion/env
 source /opt/Whisper-to-Notion/env/bin/activate 
 
+# Create the log file
+echo "Creating log file"
+touch /var/log/whisper-to-notion.log
+
 # Install requirements with pip
 echo "Installing requirements"
 /opt/Whisper-to-Notion/env/bin/pip install -r /opt/Whisper-to-Notion/requirements.txt

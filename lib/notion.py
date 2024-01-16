@@ -23,7 +23,7 @@ notion_token: Optional[str] = os.environ.get("NOTION_API_KEY")
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    filename="main.log",
+    filename="/var/log/whisper-to-notion.log",
     filemode="w",
 )
 
@@ -78,8 +78,8 @@ def create_new_row(db: str, payload):
     create_new_row(database_id, payload)
     """
     if notion_token is None:
-        logging.error("NOTION environment variable is not set.")
-        raise ValueError("NOTION environment variable is not set.")
+        logging.error("NOTION_API_KEY environment variable is not set.")
+        raise ValueError("NOTION_API_KEY environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
@@ -106,8 +106,8 @@ def get_page_by_id(page_id: str):
     example: get_page_by_id("59eff577-418d-4ece-bb83-1ee2e3aa51ce")
     """
     if notion_token is None:
-        logging.error("NOTION environment variable is not set.")
-        raise ValueError("NOTION environment variable is not set.")
+        logging.error("NOTION_API_KEY environment variable is not set.")
+        raise ValueError("NOTION_API_KEY environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
@@ -136,8 +136,8 @@ def update_notion_row(db, page_id, payload):
     update_notion_row(database_id, page_id, payload)
     """
     if notion_token is None:
-        logging.error("NOTION environment variable is not set.")
-        raise ValueError("NOTION environment variable is not set.")
+        logging.error("NOTION_API_KEY environment variable is not set.")
+        raise ValueError("NOTION_API_KEY environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",
@@ -166,8 +166,8 @@ def delete_row_by_id(page_id):
     delete_row_by_id("59eff577-418d-4ece-bb83-1ee2e3aa51ce")
     """
     if notion_token is None:
-        logging.error("NOTION environment variable is not set.")
-        raise ValueError("NOTION environment variable is not set.")
+        logging.error("NOTION_API_KEY environment variable is not set.")
+        raise ValueError("NOTION_API_KEY environment variable is not set.")
     try:
         headers = {
             "Notion-Version": "2021-05-13",

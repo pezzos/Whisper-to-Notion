@@ -120,7 +120,7 @@ It means the field you add in the config.json has a different name from your Not
 ### TODO
 
 - [X] Fallback to a default config if no config is found
-- [ ] Make it run from a server (not only locally)
+- [X] Make it run from a server (not only locally)
 - [ ] Add the different keys into the config.json
 - [ ] Allow the endpoint to be called by different users
 - [ ] Add more examples in a dedicated README.md to understand the different use-cases

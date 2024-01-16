@@ -22,7 +22,7 @@ MAX_RETRIES = 3
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    filename="gpt.log",
+    filename="/var/log/whisper-to-notion.log",
     filemode="w",
 )
 
@@ -39,9 +39,9 @@ def transcribe(audio_file_path: str) -> str:
     Returns:
         str: The generated response from the OpenAI Whisper API.
     """
-    if not os.environ.get("OPENAI"):
-        logging.error("OPENAI environment variable is not set", exc_info=True)
-        raise ValueError("OPENAI environment variable is not set.")
+    if not os.environ.get("OPENAI_API_KEY"):
+        logging.error("OPENAI_API_KEY environment variable is not set", exc_info=True)
+        raise ValueError("OPENAI_API_KEY environment variable is not set.")
 
     audio_file = open(audio_file_path, "rb")
     transcript = client.audio.transcriptions.create(model="whisper-1", file=audio_file)
@@ -78,9 +78,9 @@ def completion(
         str: The content from the OpenAI API response, with double quotes
         removed.
     """
-    if not os.environ.get("OPENAI"):
-        logging.error("OPENAI environment variable is not set", exc_info=True)
-        raise ValueError("OPENAI environment variable is not set.")
+    if not os.environ.get("OPENAI_API_KEY"):
+        logging.error("OPENAI_API_KEY environment variable is not set", exc_info=True)
+        raise ValueError("OPENAI_API_KEY environment variable is not set.")
     response = {
         "choices": [
             {"message": {"content": "default value"}},
