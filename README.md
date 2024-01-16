@@ -121,12 +121,29 @@ It means the field you add in the config.json has a different name from your Not
 
 - [X] Fallback to a default config if no config is found
 - [X] Make it run from a server (not only locally)
-- [ ] Add the different keys into the config.json
-- [ ] Allow the endpoint to be called by different users
+
+- [ ] Create a new endpoint called "hello"
+- [ ] Implement the logic to handle the "hello" endpoint
+- [ ] Test the "hello" endpoint locally to ensure server availability
+- [ ] Add logic in the Shortcuts to search first on localhost, then on the same network, then on the domain name
+- [ ] Return a success with more information about what happened, mainly what Notion DB was involved 
+- [ ] From the success, display more info into Shortcuts
+- [ ] Add a todo and done basket handled thanks to a cron tab launching a dedicated workflow
+- [ ] Clean automatically m4a (not txt) if they are done to reduce disk usage
+- [ ] Prepare Notion templates to ease the installation
 - [ ] Add more examples in a dedicated README.md to understand the different use-cases
+- [ ] Add more details about how-to setup Notion, the connection and authorization, the database id...
+- [ ] Allow the endpoint to be called by different users
+- [ ] Create an endpoint to allow users to connect thanks to their login
+- [ ] Add a DB to store users and their config
+- [ ] Move from config.json to multiple config from DB
+- [ ] Study LangChain or AutoGPT agent for complex tasks such as content creation
+- [ ] Use Bing AI for search and reduce cost
+- [ ] Generate synonyms, structure of article, optimize titles
 - [ ] Output to a Notion page
 - [ ] Output to something else (like a blog post)
 - [ ] Input: Weather
 - [ ] Input: Health and Activity
 - [ ] Input: Calendar
 - [ ] Add an UI for users to handle their config
+- [ ] Add more possibilities: prepare a search about a subject, add a movie or a series to a bucket list
