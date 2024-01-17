@@ -1,5 +1,6 @@
 flask
 openai
 python-dotenv
+pytz
 requests
 werkzeug

@@ -4,6 +4,7 @@ Create the content to send into the Notion database
 import datetime
 import json
 import logging
+import pytz
 import os
 
 from dotenv import load_dotenv
@@ -112,7 +113,10 @@ def generate_content(text: str, db: str, fields: list, lang: str):
     """
 
     # Define the current date in iso8601 format
-    date = datetime.datetime.now().isoformat()
+    # Set the timezone to Paris
+    timezone = pytz.timezone(os.environ.get("TIME_ZONE"))
+    # Get the current time in Paris
+    date = datetime.datetime.now(timezone).isoformat()
 
     # Define an empty payload
     payload = {}
