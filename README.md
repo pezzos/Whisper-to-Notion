@@ -74,9 +74,9 @@ For now, the available fields are:
 - Mood: the mood(s) detected in the text
 - Name: a name to sumup the content
 - Preparation: suggest ideas to prepare a task easily
+- Reading: Find further reading about a topic
 - Recommendations: suggest ideas to improve yourself from your current mood and events
 - Results: the expected results of an idea
-- Sources: Find sources for a topic
 - Target: Describe target audience for a topic
 - Tasks: extracts the tasks from a text
 - Title: give a motivational title to an idea, a project

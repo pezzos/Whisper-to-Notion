@@ -18,6 +18,7 @@ from lib.gpt import (
     generate_events,
     generate_excerpt,
     generate_followup,
+    generate_further_reading,
     generate_goals,
     generate_improvements,
     generate_interpretation,
@@ -27,7 +28,6 @@ from lib.gpt import (
     generate_preparation,
     generate_recommandations,
     generate_results,
-    generate_sources,
     generate_target_audience,
     generate_tasks,
     generate_title,
@@ -139,6 +139,9 @@ def generate_content(text: str, db: str, fields: list, lang: str):
         elif field == "Followup":
             followup = generate_followup(tasks, language=lang)
             payload[field] = {"type": "rich_text", "value": followup}
+        elif field == "Reading":
+            further_reading = generate_further_reading(text, language=lang)
+            payload[field] = {"type": "rich_text", "value": further_reading}
         elif field == "Goals":
             goals = generate_goals(text, language=lang)
             payload[field] = {"type": "rich_text", "value": goals}
@@ -168,9 +171,6 @@ def generate_content(text: str, db: str, fields: list, lang: str):
         elif field == "Results":
             result = generate_results(text, language=lang)
             payload[field] = {"type": "rich_text", "value": result}
-        elif field == "Sources":
-            sources = generate_sources(text, language=lang)
-            payload[field] = {"type": "rich_text", "value": sources}
         elif field == "Target":
             target = generate_target_audience(text, language=lang)
             payload[field] = {"type": "rich_text", "value": target}
