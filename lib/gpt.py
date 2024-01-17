@@ -22,7 +22,7 @@ MAX_RETRIES = 3
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    filename="/var/log/whisper-to-notion.log",
+    filename=os.environ.get("LOG_PATH"),
     filemode="w",
 )
 
