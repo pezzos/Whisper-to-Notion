@@ -149,22 +149,34 @@ def generate_concept(text: str, language: str) -> str:
     return completion(system_msg, user_msg, model)
 
 
-def generate_draft(text: str, language: str) -> str:
+def generate_draft(
+    text: str, target: str, keywords: str, sources: str, language: str
+) -> str:
     """
     This function generate a draft for an article.
     """
 
     # Define the system message
     system_msg = (
-        "You are an expert in adding value to idea. You improve the clarity "
-        "of an idea by describing its concept and the related reasons. You do "
-        "not add a title, a plan or an how to do this. You are concise yet "
-        f"clear. You use simple text for the output. You use {language} as "
-        "output language."
+        "You are an expert in writing content. You write a draft for a "
+        "blog post that is optimized for SEO and includes relevant keywords "
+        "for the target audience. You are concise yet clear. You can split "
+        " the text into paragraphs with title. If it adds value to support "
+        "your texte, you can add actionable tips, advice, real-life examples "
+        "or case studies from  You use simple text for the output. You never "
+        f"invent something you can't prove. You use {language} as output "
+        "language. The tone is friendly and approachable, using casual "
+        "language and relatable examples to appeal to a wide range of readers."
+        "The post should aim to establish a personal connection with the "
+        "reader and create a sense of community.  Write in a personal style "
+        "using singular first-person pronouns only."
     )
 
     # Define the user message
-    user_msg = f"Describe the concept of this idea: {text}"
+    user_msg = (
+        f"Craft a blog post on {text} that will engage and inform {target} "
+        f"with these keywords: {keywords}. The sources are: {sources}"
+    )
 
     # Define the model
     model = "gpt-4-1106-preview"
@@ -182,13 +194,38 @@ def generate_events(text: str, language: str) -> str:
     system_msg = (
         "You are an expert to understand content. You extract from the "
         "texts all the described events. You rephrase them and create an "
-        "ordererd list of them. You are concise yet clear. You use simple "
-        f"list for the output without formatting. You use {language} as "
-        "output language."
+        "ordered list of them. The person talking is me, so you describe "
+        "the task talking about me, you use 'you'. You are concise yet "
+        "clear. You use simple list for the output without formatting. "
+        f"You use {language} as output language."
     )
 
     # Define the user message
     user_msg = f"Extract the events from this text: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_excerpt(text: str, keywords: str, language: str) -> str:
+    """
+    This function generate an excerpt for an article.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert in summarizing content of an article. You "
+        "summarize the content of an article in a few sentences. This "
+        "will also be used as a meta-description with keywords. You "
+        f"are concise yet clear. You use {language} as output language. "
+        "You use simple text for the output. You do not add a title."
+    )
+
+    # Define the user message
+    user_msg = f"Summarize this article: {text} using " f"these keywords: {keywords}"
 
     # Define the model
     model = "gpt-4-1106-preview"
@@ -206,7 +243,7 @@ def generate_followup(text: str, language: str) -> str:
     system_msg = (
         "You are an expert in productivity. You suggest follow-ups for "
         "lists of tasks, helping me to avoid missing the big picture or todo."
-        "You create an ordererd list of them. You are concise yet clear. You "
+        "You create an ordered list of them. You are concise yet clear. You "
         "use simple list for the output without formatting. You use "
         f"{language} as output language"
     )
@@ -254,12 +291,60 @@ def generate_improvements(text: str, language: str) -> str:
         "You are an expert in adding value to idea. You improve an idea by "
         "suggesting improvements to it, mainly quick wins. You do not add a "
         "title, a plan or an how to do this. You are concise yet clear. You "
-        f"use simple text for the output. You use {language} as output "
-        "language."
+        f"create a list of improvement for the output. You use {language} as "
+        "output language."
     )
 
     # Define the user message
     user_msg = f"Suggest improvement to this idea: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_interpretation(text: str, language: str) -> str:
+    """
+    This function describe the interpretation of a dream, a tought.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are a professional dream interpreter. From the descriptions "
+        "of dreams, and you provide interpretations based on the symbols "
+        "and themes present in the dream. Do not provide personal opinions "
+        "or assumptions about the dreamer. Provide only factual "
+        f"interpretations based on the information given. You use {language} "
+        "as output language."
+    )
+
+    # Define the user message
+    user_msg = f"Interprete this: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_keywords(text: str, language: str) -> str:
+    """
+    This function generate keywords.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert in SEO. You generate the list of keywords "
+        "the most relevant about a topic. You create a list of them. You "
+        f"limit this list to 5 items. You use {language} as output language. "
+        "You use simple text for the output."
+    )
+
+    # Define the user message
+    user_msg = f"Summarize this article: {text}"
 
     # Define the model
     model = "gpt-4-1106-preview"
@@ -326,7 +411,7 @@ def generate_preparation(text: str, language: str) -> str:
     system_msg = (
         "You are an expert in productivity. You suggest preparation to do in "
         "order to easily handle a task, helping me to avoid missing the big "
-        "picture or todo. You create an ordererd list of them. You are "
+        "picture or todo. You create an ordered list of them. You are "
         "concise yet clear. You use simple list for the output without "
         f"formatting. You use {language} as output language"
     )
@@ -374,21 +459,67 @@ def generate_recommandations(moods: str, events: str, language: str) -> str:
 
 def generate_results(text: str, language: str) -> str:
     """
-    This function improves the clarity of an idea by describing its expected
-    results.
+    This function describes the expected results.
     """
 
     # Define the system message
     system_msg = (
-        "You are an expert in adding value to idea. You improve the clarity "
-        "of an idea by describing its expected result for the end-user. You "
-        "do not add a title, a plan or an how to do this. You are concise yet "
-        f"clear. You use simple text for the output. You use {language} "
-        "as output language."
+        "You are an expert in understanding what could be achieve with an "
+        "idea or a project. You describe the expected results for the "
+        "end-user if the idea/project is created, its true value. You "
+        "do not add a title. You are concise yet clear. You use simple "
+        f"text for the output. You use {language} as output language."
     )
 
     # Define the user message
     user_msg = f"Describe the expected results of this idea: {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_sources(text: str, language: str) -> str:
+    """
+    This function returns sources of information about a subject.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an expert in searching real fact. Provide me with a list of "
+        "related articles or blog posts that I can reference in my blog post "
+        "You are concise yet clear. You use simple text for the output. You "
+        f"use {language} as output language."
+    )
+
+    # Define the user message
+    user_msg = f"Suggest some sources of information that I can use to back up my claims in my blog post on : {text}"
+
+    # Define the model
+    model = "gpt-4-1106-preview"
+
+    # Call the completion function
+    return completion(system_msg, user_msg, model)
+
+
+def generate_target_audience(text: str, language: str) -> str:
+    """
+    This function returns the target audience of a subject.
+    """
+
+    # Define the system message
+    system_msg = (
+        "You are an marketing expert. You help me to understand the pain "
+        "points and challenges of my target audience so that I can write a "
+        "blog post that addresses their needs. You are concise yet clear. "
+        "You use simple list for the output without formatting. You use "
+        f"{language} as output language."
+    )
+
+    # Define the user message
+    user_msg = f"Provide me with a description of my target audience for my blog post on: {text}"
 
     # Define the model
     model = "gpt-4-1106-preview"
@@ -405,8 +536,8 @@ def generate_tasks(text: str, language: str) -> str:
     # Define the system message
     system_msg = (
         "You are an expert to understand content. You extract from the "
-        "texts all the described tasks. You rephrase them and create an "
-        "ordererd list of them. You are concise yet clear. You use simple "
+        "texts all the described tasks. You rephrase them and create a "
+        " list of them. You are concise yet clear. You use simple "
         f"list for the output without formatting. You use {language} "
         "as output language."
     )
