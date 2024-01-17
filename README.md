@@ -35,7 +35,7 @@ cd Whisper-to-Notion
 Run the install.sh script as root
 ```bash
 sudo ./install.sh
-``
+```
 
 ### Running the program
 
@@ -62,16 +62,22 @@ Keep in mind that each Notion DB (see: db_id) has fields described in this file 
 For now, the available fields are:
 - Concept: to describe the concept of an idea, a project
 - Date: the current date
+- Draft: write a draft for an article
 - Events: the events listed in the text
+- Excerpt: Create an excerpt/meta-description with keywords
 - Followup: followup suggestions from the tasks in the text
 - Goals: to describe the goals of an idea, a project
 - Improvements: to describe what could be improved from an idea
-- Input: the input received
+- Input: the input received (the sentence until the keyword trigger is removed)
+- Interpretation: Interprete a dream
+- Keywords: Found keywords usefull for a topic 
 - Mood: the mood(s) detected in the text
 - Name: a name to sumup the content
 - Preparation: suggest ideas to prepare a task easily
 - Recommendations: suggest ideas to improve yourself from your current mood and events
 - Results: the expected results of an idea
+- Sources: Find sources for a topic
+- Target: Describe target audience for a topic
 - Tasks: extracts the tasks from a text
 - Title: give a motivational title to an idea, a project
 - Weather
