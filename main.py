@@ -62,10 +62,6 @@ def load_config(text: str):
     """
     This function loads the config.json file based on the
     """
-    # Get the first sentence of the text, we'll search the first keyword that
-    # could match in it
-
-    first_sentence = text.split(".")[0]
     # Load the JSON config file in a Python dictionary
     try:
         with open(CONFIG_FILE, encoding="utf-8") as f:
@@ -76,18 +72,29 @@ def load_config(text: str):
     # Select only one item in the dictionnary, the one that matches the text
     # inside the keywords value
     if user_config is not None:
-        for word in first_sentence.split():
+        for word in text.split():
             # Remove any punctuations and lower the word
-            word = word.lower().strip(".,!?")
-            logging.debug("The word is: %s", word)
+            normalized_word = word.lower().strip(".,!?")
+            word_length = len(normalized_word)
+            logging.debug("The word is: %s", normalized_word)
             for destination in user_config["destinations"]:
                 logging.debug("The destination is: %s", destination)
-                if word in destination["keywords"]:
+                if normalized_word in destination["keywords"]:
                     logging.debug("The destination is: %s", destination)
-                    return destination
+                    # The rest of the text from the current word is the idea
+                    idea: str = "".join(
+                        text[text.index(normalized_word) + word_length + 1 :]
+                    )
+                    logging.debug("The idea is: %s", idea)
+                    # Return the destination and the idea
+                    return destination, idea
+            # If a point is found, then we stop the loop because
+            # the keyword is not found
+            if "." in word:
+                break
         # Fallback to the first item in the config file
         logging.warning("No destination found, using default", exc_info=True)
-        return user_config["destinations"][0]
+        return user_config["destinations"][0], text
     else:
         logging.error("No config file found, using default", exc_info=True)
         raise FileNotFoundError
@@ -187,7 +194,7 @@ def generate():
     idea = transcribe(filepath)
 
     # Load the config file
-    destination = load_config(idea)
+    destination, idea = load_config(idea)
     logging.debug("The destination is: %s", destination)
     print(f"Doing:{destination['name']}")
     database_id = destination["db_id"]
