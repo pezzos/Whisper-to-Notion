@@ -114,7 +114,8 @@ def generate_content(text: str, db: str, fields: list, lang: str):
 
     # Define the current date in iso8601 format
     # Set the timezone to Paris
-    timezone = pytz.timezone(os.environ.get("TIME_ZONE"))
+
+    timezone = pytz.timezone(os.environ.get("TIME_ZONE", "UTC"))
     # Get the current time in Paris
     date = datetime.datetime.now(timezone).isoformat()
 
@@ -128,7 +129,7 @@ def generate_content(text: str, db: str, fields: list, lang: str):
         elif field == "Date":
             payload[field] = {"type": "date", "value": {"start": date}}
         elif field == "Draft":
-            draft = generate_draft(text, target, keywords, sources, language=lang)
+            draft = generate_draft(text, target, keywords, language=lang)
             payload[field] = {"type": "rich_text", "value": draft}
         elif field == "Events":
             events = generate_events(text, language=lang)
@@ -183,7 +184,8 @@ def generate_content(text: str, db: str, fields: list, lang: str):
         elif field == "Weather":
             # Todo: call the weather API
             # https://api.openweathermap.org/data/3.0/onecall
-            # /day_summary?lat={lat}&lon={lon}&date={date}&tz={tz}&appid={API key}
+            # /day_summary?lat={lat}
+            # &lon={lon}&date={date}&tz={tz}&appid={API key}
             payload[field] = {"type": "rich_text", "value": "No implementation yet"}
         else:
             payload[field] = {"type": "rich_text", "value": text}
@@ -235,10 +237,20 @@ def generate():
             idea, database_id, destination["fields"], destination["language"]
         )
         logging.debug("The content is generated")
-        return jsonify({"message": "Success"}), 200
+        return jsonify({"message": "Success", "destination": destination["name"]}), 200
     logging.error("No idea provided", exc_info=True)
     return jsonify({"message": "No idea provided"}), 400
 
 
+@app.route("/hello", methods=["GET"])
+def hello():
+    """
+    This function is used to check if the app is running
+    """
+    return jsonify({"message": "Success"}), 200
+
+
 if __name__ == "__main__":
+    if PORT is None:
+        PORT = 5000
     app.run(host="0.0.0.0", port=PORT)
