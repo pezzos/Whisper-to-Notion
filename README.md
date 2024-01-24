@@ -127,13 +127,15 @@ It means the field you add in the config.json has a different name from your Not
 
 - [X] Fallback to a default config if no config is found
 - [X] Make it run from a server (not only locally)
-
-- [ ] Create a new endpoint called "hello"
-- [ ] Implement the logic to handle the "hello" endpoint
-- [ ] Test the "hello" endpoint locally to ensure server availability
-- [ ] Add logic in the Shortcuts to search first on localhost, then on the same network, then on the domain name
-- [ ] Return a success with more information about what happened, mainly what Notion DB was involved 
-- [ ] From the success, display more info into Shortcuts
+- [X] Create a new endpoint called "hello"
+- [ ] Add logic in the Shortcuts to search first on localhost, then on the same network, then on the domain name > Complex by now because "Get Content" fails the shortcut if the server is unavailable
+- [X] Return a success with more information about what happened, mainly what Notion DB was involved 
+- [X] From the success, display more info into Shortcuts
+- [ ] Fix issue with splitting the input
+- [ ] Remove accents in keyword when compared
+- [ ] If no keyword matches, find the intention
+- [ ] Add a way to ask for a detailled search
+- [ ] Add a way to directly ask to GPT and save the output to Notion
 - [ ] Add a todo and done basket handled thanks to a cron tab launching a dedicated workflow
 - [ ] Clean automatically m4a (not txt) if they are done to reduce disk usage
 - [ ] Prepare Notion templates to ease the installation
@@ -152,4 +154,4 @@ It means the field you add in the config.json has a different name from your Not
 - [ ] Input: Health and Activity
 - [ ] Input: Calendar
 - [ ] Add an UI for users to handle their config
-- [ ] Add more possibilities: prepare a search about a subject, add a movie or a series to a bucket list
+- [ ] Add more possibilities: prepare a search about a subject, add a movie or a series to a bucket list, improvements of this very one script
